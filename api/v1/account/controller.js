@@ -57,10 +57,7 @@ exports.getAccount = async function (req, res) {
       return res.status(200).json(rsmg('10005', null));
     }
 
-    const hasil = {
-      dataAccount: dataAccount,
-    }
-    return res.status(200).json(rsmg('000000', hasil));
+    return res.status(200).json(rsmg('000000', dataAccount));
   } catch (e) {
     logger.error('error GET /api/v1/account...', e);
     return utils.returnErrorFunction(res, 'error GET /api/v1/account...', e);
