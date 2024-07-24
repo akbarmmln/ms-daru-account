@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('./controller');
 
-router.post('/', controller.getAccount);
+router.get('/', controller.getAccount);
+router.post('/create-account', controller.createAccount);
 
 module.exports = router;
