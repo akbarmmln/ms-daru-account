@@ -33,7 +33,7 @@ exports.getAccount = async function (req, res) {
     const hasil = {
       dataAccount: dataAccount,
     }
-    return res.status(200).json(rsmg(hasil));
+    return res.status(200).json(rsmg('000000', hasil));
   } catch (e) {
     logger.error('error POST /api/v1/account...', e);
     return utils.returnErrorFunction(res, 'error POST /api/v1/account...', e);
