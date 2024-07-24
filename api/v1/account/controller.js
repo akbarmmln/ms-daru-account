@@ -11,6 +11,33 @@ const bcrypt = require('bcryptjs');
 const saltRounds = 12;
 const connectionDB = require('../../../config/db').Sequelize;
 
+exports.chekAccount = async function(req, res){
+  try{
+    let id = req.params.id;
+    const splitId = id.split('-');
+    const splitIdLenght = splitId.length
+    const partition = splitId[splitIdLenght - 1]
+
+    const tabelAccount = adrAccountModel(partition)
+
+    const data = await tabelAccount.findOne({
+      raw: true,
+      where: {
+        id: id
+      }
+    })
+
+    if (!data) {
+      return res.status(200).json(rsmg('000000', false))
+    } else {
+      return res.status(200).json(rsmg('000000', true))
+    }
+  }catch(e){
+    logger.error('error GET /api/v1/account/:id...', e);
+    return utils.returnErrorFunction(res, 'error GET /api/v1/account/:id...', e);
+  }
+}
+
 exports.getAccount = async function (req, res) {
   try {
     let id = req.id;
