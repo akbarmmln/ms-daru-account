@@ -41,6 +41,6 @@ exports.verifyTokenMs = async function (req, res, next) {
     next();
   } catch (e) {
     logger.error('error verify token...', e)
-    return res.status(401).json(errMsg('10000'));
+    return res.status(401).json(e?.response?.data);
   }
 }
