@@ -4,13 +4,10 @@ const axios = require('axios');
 
 exports.returnErrorFunction = function (resObject, errorMessageLogger, errorObject) {
   if (typeof errorObject === 'string') {
-    logger.error(errorMessageLogger, errorObject);
     return resObject.status(400).json(errMsg(errorObject));
   } else if (errorObject.error) {
-    logger.error(errorObject.error.err_code, errorObject);
     return resObject.status(500).json(errorObject.error);
   } else {
-    logger.error(errorObject);
     return resObject.status(500).json(errMsg('10000'));
   }
 };
@@ -40,7 +37,7 @@ exports.verifyTokenMs = async function (req, res, next) {
     res.set('access-token', verifyToken.data.newToken);
     next();
   } catch (e) {
-    logger.error('error verify token...', e)
+    logger.errorWithContext({ error: e, message: 'error verify token...' });
     return res.status(401).json(e?.response?.data);
   }
 }

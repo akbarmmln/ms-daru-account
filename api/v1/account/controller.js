@@ -33,7 +33,7 @@ exports.chekAccount = async function(req, res){
       return res.status(200).json(rsmg('000000', true))
     }
   }catch(e){
-    logger.error('error GET /api/v1/account/:id...', e);
+    logger.errorWithContext({ error: e, message: 'error GET /api/v1/account/:id...' });
     return utils.returnErrorFunction(res, 'error GET /api/v1/account/:id...', e);
   }
 }
@@ -59,7 +59,7 @@ exports.getAccount = async function (req, res) {
 
     return res.status(200).json(rsmg('000000', dataAccount));
   } catch (e) {
-    logger.error('error GET /api/v1/account...', e);
+    logger.errorWithContext({ error: e, message: 'error GET /api/v1/account...' });
     return utils.returnErrorFunction(res, 'error GET /api/v1/account...', e);
   }
 }
@@ -100,7 +100,7 @@ exports.createAccount = async function(req, res){
 
     return res.status(200).json(rsmg('000000', accountCreated));
   }catch(e){
-    logger.error('error POST /api/v1/account/create-account...', e);
+    logger.errorWithContext({ error: e, message: 'error POST /api/v1/account/create-account...' });
     return utils.returnErrorFunction(res, 'error POST /api/v1/account/create-account...', e);
   }
 }
