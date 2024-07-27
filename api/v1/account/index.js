@@ -6,6 +6,6 @@ const controller = require('./controller');
 router.get('/', utils.verifyTokenMs, controller.getAccount);
 router.post('/create-account', controller.createAccount);
 
-router.get('/:id', controller.chekAccount);
+router.get('/check/:id', controller.chekAccount);
 
 module.exports = router;
