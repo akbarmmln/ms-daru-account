@@ -44,7 +44,7 @@ exports.smtpMailer = async function (mailObject) {
       status: 'sucess',
       message: info
     }
-    logger.infoWithContext(`success send email, email to ${mailObject.to}`, hasil);
+    logger.infoWithContext(`success send email, email to ${mailObject.to}, ${hasil}`);
     return hasil;
   } catch (e) {
     let hasil = {
@@ -52,7 +52,7 @@ exports.smtpMailer = async function (mailObject) {
       status: 'failed',
       message: e.toString()
     }
-    logger.infoWithContext(`failed to send email, email to ${mailObject.to}`, hasil);
+    logger.infoWithContext(`failed to send email, email to ${mailObject.to}, ${hasil}`);
     return hasil;
   }
 }
