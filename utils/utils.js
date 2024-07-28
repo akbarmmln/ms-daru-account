@@ -33,6 +33,7 @@ exports.verifyTokenMs = async function (req, res, next) {
     })
     verifyToken = verifyToken.data
     req.id = verifyToken.data.id;
+    req.parts = verifyToken.data.partition;
     res.set('Access-Control-Expose-Headers', 'access-token');
     res.set('access-token', verifyToken.data.newToken);
     next();

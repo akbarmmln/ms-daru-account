@@ -13,7 +13,7 @@ const connectionDB = require('../../../config/db').Sequelize;
 
 exports.chekAccount = async function(req, res){
   try{
-    let id = req.params.id;
+    const id = req.params.id;
     const splitId = id.split('-');
     const splitIdLenght = splitId.length
     const partition = splitId[splitIdLenght - 1]
@@ -41,11 +41,8 @@ exports.chekAccount = async function(req, res){
 exports.getAccount = async function (req, res) {
   try {
     let id = req.id;
-    const splitId = id.split('-');
-    const splitIdLenght = splitId.length
-    const partition = splitId[splitIdLenght - 1]
 
-    const tabelAccount = adrAccountModel(partition)
+    const tabelAccount = adrAccountModel(req.parts)
 
     const dataAccount = await tabelAccount.findOne({
       raw: true,
