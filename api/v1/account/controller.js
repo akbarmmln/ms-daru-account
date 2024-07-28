@@ -93,13 +93,20 @@ exports.createAccount = async function(req, res){
       blok: blok,
       nomor_rumah: nomor_rumah,
       rt: rt,
-      rw: rw,
-      organitation_id: organitation_id
+      rw: rw
     })
 
     return res.status(200).json(rsmg('000000', accountCreated));
   }catch(e){
     logger.errorWithContext({ error: e, message: 'error POST /api/v1/account/create-account...' });
     return utils.returnErrorFunction(res, 'error POST /api/v1/account/create-account...', e);
+  }
+}
+
+exports.getTetangga = async function (req, res) {
+  try {
+
+  } catch (e) {
+
   }
 }
