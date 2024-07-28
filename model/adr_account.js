@@ -21,6 +21,7 @@ const adrAccountModel = (partition) => {
 		nomor_rumah: Sequelize.STRING,
 		rt: Sequelize.STRING,
 		rw: Sequelize.STRING,
+		organitation_id: Sequelize.STRING,
 	}, {
 		freezeTableName: true,
 		timestamps: false,

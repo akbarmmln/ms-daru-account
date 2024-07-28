@@ -75,6 +75,7 @@ exports.createAccount = async function(req, res){
     const nomor_rumah = req.body.nomor_rumah;
     const rt = req.body.rt;
     const rw = req.body.rw;
+    const organitation_id = req.body.organitation_id;
 
     const tabelAccount = adrAccountModel(partition)
     const accountCreated = await tabelAccount.create({
@@ -92,7 +93,8 @@ exports.createAccount = async function(req, res){
       blok: blok,
       nomor_rumah: nomor_rumah,
       rt: rt,
-      rw: rw
+      rw: rw,
+      organitation_id: organitation_id
     })
 
     return res.status(200).json(rsmg('000000', accountCreated));
