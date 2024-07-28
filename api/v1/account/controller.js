@@ -7,6 +7,7 @@ const uuidv4 = require('uuid').v4;
 const logger = require('../../../config/logger');
 const mailer = require('../../../config/mailer');
 const adrAccountModel = require('../../../model/adr_account');
+const adrAccountView = require('../../../model/adr_account_view');
 const bcrypt = require('bcryptjs');
 const saltRounds = 12;
 const connectionDB = require('../../../config/db').Sequelize;
@@ -105,8 +106,18 @@ exports.createAccount = async function(req, res){
 
 exports.getTetangga = async function (req, res) {
   try {
+    const organitation_id = req.organitation_id;
 
+    let data = await adrAccountView.findAll({
+      raw: true,
+      where: {
+        organitation_id: organitation_id
+      }
+    })
+
+    return res.status(200).json(rsmg('000000', data));
   } catch (e) {
-
+    logger.errorWithContext({ error: e, message: 'error POST /api/v1/account/tetangga...' });
+    return utils.returnErrorFunction(res, 'error POST /api/v1/account/tetangga...', e);
   }
 }
