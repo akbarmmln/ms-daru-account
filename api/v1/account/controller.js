@@ -76,7 +76,6 @@ exports.createAccount = async function(req, res){
     const nomor_rumah = req.body.nomor_rumah;
     const rt = req.body.rt;
     const rw = req.body.rw;
-    const organitation_id = req.body.organitation_id;
 
     const tabelAccount = adrAccountModel(partition)
     const accountCreated = await tabelAccount.create({
