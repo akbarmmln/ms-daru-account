@@ -3,6 +3,10 @@
 const moment = require('moment');
 const logger = require('./logger');
 
+exports.getCurrentTimeInJakarta = function (date) {
+    return moment(date).tz('Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss.SSS');
+}
+
 exports.dateFormat = async function(date, type){
     try{
         const newDate = moment(date).format(type);
@@ -13,7 +17,7 @@ exports.dateFormat = async function(date, type){
     }
 }
 
-exports.rupiahFormat = async function(rupiah, elit){
+exports.rupiahFormat = function(rupiah, elit){
     try{
         const newRupiah = 'Rp ' + rupiah.toString().replace(/\B(?=(\d{3})+(?!\d))/g, `${elit}`)
         return newRupiah;
@@ -41,18 +45,4 @@ exports.isEmpty = function (data) {
     }else{
         return false;
     }
-}
-
-exports.dateFormatIndo = async function(date){
-  try {
-    const dateObj = moment(date).locale("id");
-    if (!dateObj.isValid()) {
-      throw new Error('Invalid date');
-    }
-    const newDate = dateObj.format('DD-MMMM-YYYY');
-    return newDate;
-  } catch (e) {
-    logger.errorWithContext({message: 'error formatting date', error: e});
-    return '-';
-  }
 }
