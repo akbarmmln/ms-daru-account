@@ -5,7 +5,7 @@ const controller = require('./controller');
 
 router.get('/', utils.verifyTokenMs, controller.getAccount);
 
-router.get('/tetangga', utils.verifyTokenMs, controller.getTetangga);
+router.get('/tetangga', controller.getTetangga);
 
 router.post('/create-account', controller.createAccount);
 

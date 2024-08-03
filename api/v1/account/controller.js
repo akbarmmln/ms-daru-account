@@ -7,7 +7,6 @@ const uuidv4 = require('uuid').v4;
 const logger = require('../../../config/logger');
 const mailer = require('../../../config/mailer');
 const adrAccountModel = require('../../../model/adr_account');
-const adrAccountView = require('../../../model/adr_account_view');
 const bcrypt = require('bcryptjs');
 const saltRounds = 12;
 const connectionDB = require('../../../config/db').Sequelize;
@@ -105,16 +104,16 @@ exports.createAccount = async function(req, res){
 
 exports.getTetangga = async function (req, res) {
   try {
-    const organitation_id = req.organitation_id;
+    const organitation_id = req.body.organitation_id;
+    const table = ["adr_account_Pwf0uKJu"];
+    const tableNames = JSON.stringify(table);
 
-    let data = await adrAccountView.findAll({
-      raw: true,
-      where: {
-        organitation_id: organitation_id
-      }
-    })
+    const results = await connectionDB.query('CALL allAccount(:tableNames, :orgID)', {
+      replacements: { tableNames: tableNames, orgID: organitation_id },
+      type: connectionDB.QueryTypes.RAW
+    });
 
-    return res.status(200).json(rsmg('000000', data));
+    return res.status(200).json(rsmg('000000', results));
   } catch (e) {
     logger.errorWithContext({ error: e, message: 'error POST /api/v1/account/tetangga...' });
     return utils.returnErrorFunction(res, 'error POST /api/v1/account/tetangga...', e);
