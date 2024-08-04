@@ -1,6 +1,7 @@
 const logger = require('../config/logger');
 const errMsg = require('../error/resError');
 const axios = require('axios');
+const shortUuid = require('short-uuid');
 
 exports.returnErrorFunction = function (resObject, errorMessageLogger, errorObject) {
   if (typeof errorObject === 'string') {
@@ -43,4 +44,15 @@ exports.verifyTokenMs = async function (req, res, next) {
     logger.errorWithContext({ error: e, message: 'error verify token...' });
     return res.status(401).json(e?.response?.data);
   }
+}
+
+exports.shortID = function (length) {
+  const customAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const translator = shortUuid(customAlphabet);
+  const shortId = translator.new();
+
+  if (length) {
+    return shortId.slice(0, length).padEnd(length, customAlphabet.charAt(0));
+  }
+  return shortId;
 }

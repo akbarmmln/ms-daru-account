@@ -11,6 +11,9 @@ const bcrypt = require('bcryptjs');
 const saltRounds = 12;
 const connectionDB = require('../../../config/db').Sequelize;
 const allAccounts = require('../../../model/allAccount');
+const {fire} = require("../../../config/firebase");
+const firestore = fire.firestore();
+const formats = require('../../../config/format');
 
 exports.chekAccount = async function(req, res){
   try{
@@ -114,17 +117,40 @@ exports.getTetangga = async function (req, res) {
       }
     })
 
-    // const table = ["adr_account_Pwf0uKJu"];
-    // const tableNames = JSON.stringify(table);
-
-    // const results = await connectionDB.query('CALL allAccount(:tableNames, :orgID)', {
-    //   replacements: { tableNames: tableNames, orgID: organitation_id },
-    //   type: connectionDB.QueryTypes.RAW
-    // });
-
     return res.status(200).json(rsmg('000000', results));
   } catch (e) {
-    logger.errorWithContext({ error: e, message: 'error POST /api/v1/account/tetangga...' });
-    return utils.returnErrorFunction(res, 'error POST /api/v1/account/tetangga...', e);
+    logger.errorWithContext({ error: e, message: 'error GET /api/v1/account/tetangga...' });
+    return utils.returnErrorFunction(res, 'error GET /api/v1/account/tetangga...', e);
+  }
+}
+
+exports.createRegisTable = async function (req, res) {
+  try {
+    const desiredLength = formats.generateRandomValue(8,10);
+    const shortID = utils.shortID(desiredLength);
+    const tabelRegistered = (await firestore.collection('daru').doc('register_partition').get()).data();
+    let partition = tabelRegistered;
+
+    partition.partition.push({
+      table: shortID,
+      status: true
+    })
+
+    const tabelNameArray = partition.partition.map(obj => `adr_account_${obj.table}`);
+    const tableNames = JSON.stringify(tabelNameArray);
+    const results = await connectionDB.query('CALL createRegisterTables(:newTableName, :tableNames)', {
+      replacements: { newTableName: shortID, tableNames: tableNames },
+      type: connectionDB.QueryTypes.RAW
+    });
+
+    await firestore
+      .collection(`daru`)
+      .doc('register_partition')
+      .update(partition);
+
+    return res.status(200).json(rsmg('000000', `new table name is ${shortID}`))
+  } catch (e) {
+    logger.errorWithContext({ error: e, message: 'error GET /api/v1/account/su-admin/create-register-table...' });
+    return utils.returnErrorFunction(res, 'error GET /api/v1/account/su-admin/create-register-table...', e);
   }
 }
