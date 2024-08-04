@@ -7,6 +7,7 @@ const errCode = {
     '10005': 'data not found',
     '10006': 'data already registered',
     '10007': 'pin not valid',
+    '10008': 'access not allowed to this function',
   };
   
   module.exports = errCode;

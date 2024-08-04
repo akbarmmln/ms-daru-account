@@ -14,6 +14,7 @@ const allAccounts = require('../../../model/allAccount');
 const {fire} = require("../../../config/firebase");
 const firestore = fire.firestore();
 const formats = require('../../../config/format');
+const errMsg = require('../../../error/resError');
 
 exports.chekAccount = async function(req, res){
   try{
@@ -126,6 +127,10 @@ exports.getTetangga = async function (req, res) {
 
 exports.createRegisTable = async function (req, res) {
   try {
+    if (req.position_id !== '00') {
+      return res.status(401).json(errMsg('10008'))
+    }
+
     const desiredLength = formats.generateRandomValue(8,10);
     const shortID = utils.shortID(desiredLength);
     const tabelRegistered = (await firestore.collection('daru').doc('register_partition').get()).data();
