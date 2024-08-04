@@ -80,6 +80,39 @@ exports.createAccount = async function(req, res){
     const nomor_rumah = req.body.nomor_rumah;
     const rt = req.body.rt;
     const rw = req.body.rw;
+    let validate = [];
+    validate.push(mobile_number);
+    validate.push(email)
+
+    const check = await allAccounts.findAll({
+      raw: true,
+      where: {
+        $or: [
+          {
+            mobile_number: mobile_number
+          },
+          {
+            email: email
+          }
+        ]
+      },
+    });
+
+    if (check.length >= 1) {
+      for (let i=0; i<validate.length; i++) {
+        for (let k=0; k<check.length; k++) {
+          if (i==0) {
+            if (check[k].mobile_number == validate[i]) {
+              throw '10009'
+            }
+          } else if (i==1) {
+            if (check[k].email == validate[i]) {
+              throw '10010'
+            }
+          }
+        }
+      }
+    }
 
     const tabelAccount = adrAccountModel(partition)
     const accountCreated = await tabelAccount.create({

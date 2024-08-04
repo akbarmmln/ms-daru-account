@@ -8,6 +8,8 @@ const errCode = {
     '10006': 'data already registered',
     '10007': 'pin not valid',
     '10008': 'access not allowed to this function',
+    '10009': 'nomor hp telah terdaftar',
+    '10010': 'email telah terdaftar',
   };
   
   module.exports = errCode;
