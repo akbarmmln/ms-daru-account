@@ -38,8 +38,8 @@ exports.chekAccount = async function(req, res){
       return res.status(200).json(rsmg('000000', true))
     }
   }catch(e){
-    logger.errorWithContext({ error: e, message: 'error GET /api/v1/account/:id...' });
-    return utils.returnErrorFunction(res, 'error GET /api/v1/account/:id...', e);
+    logger.errorWithContext({ error: e, message: 'error GET /api/v1/account/check/:id...' });
+    return utils.returnErrorFunction(res, 'error GET /api/v1/account/check/:id...', e);
   }
 }
 
