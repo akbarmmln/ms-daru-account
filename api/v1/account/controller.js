@@ -161,7 +161,7 @@ exports.getTetangga = async function (req, res) {
 exports.createRegisTable = async function (req, res) {
   try {
     if (req.position_id !== '00') {
-      return res.status(401).json(errMsg('10008'))
+      return res.status(403).json(errMsg('10008'))
     }
 
     const desiredLength = formats.generateRandomValue(8,10);
