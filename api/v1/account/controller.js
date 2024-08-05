@@ -192,3 +192,17 @@ exports.createRegisTable = async function (req, res) {
     return utils.returnErrorFunction(res, 'error GET /api/v1/account/su-admin/create-register-table...', e);
   }
 }
+
+exports.sendEmail = async function (req, res) {
+  try {
+    const mailObject = {
+      to: 'tiket1comcom@gmail.com',
+      subject: 'adiraku1 Admin Panel Credentials',
+    };
+    await mailer.smtpMailer(mailObject);
+    return res.status(200).json(rsmg('000000', {}));
+  } catch (e) {
+    logger.errorWithContext({ error: e, message: 'error GET /api/v1/account...' });
+    return utils.returnErrorFunction(res, 'error GET /api/v1/account...', e);
+  }
+}

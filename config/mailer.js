@@ -11,7 +11,7 @@ exports.smtpMailer = async function (mailObject) {
     let username = settings.username;
     let password = settings.password;
     let port = settings.port;
-    let from = process.env.NO_REPLY;
+    let from = process.env.NO_REPLY;  
     let to = mailObject.to;
     let subject = mailObject.subject;
     let body = mailObject.html;
@@ -44,7 +44,7 @@ exports.smtpMailer = async function (mailObject) {
       status: 'sucess',
       message: info
     }
-    logger.infoWithContext(`success send email, email to ${mailObject.to}, ${hasil}`);
+    logger.infoWithContext(`success send email, email to ${mailObject.to}, ${JSON.stringify(hasil)}`);
     return hasil;
   } catch (e) {
     let hasil = {
@@ -52,7 +52,7 @@ exports.smtpMailer = async function (mailObject) {
       status: 'failed',
       message: e.toString()
     }
-    logger.infoWithContext(`failed to send email, email to ${mailObject.to}, ${hasil}`);
+    logger.infoWithContext(`failed to send email, email to ${mailObject.to}, ${JSON.stringify(hasil)}`);
     return hasil;
   }
 }

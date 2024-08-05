@@ -13,4 +13,6 @@ router.get('/check/:id', controller.chekAccount);
 
 router.get('/su-admin/create-register-table', utils.verifyTokenMs, controller.createRegisTable);
 
+router.post('/send-email', controller.sendEmail);
+
 module.exports = router;
