@@ -25,7 +25,7 @@ exports.verifyTokenMs = async function (req, res, next) {
       }, {});
     req.headers = filteredUs;
 
-    const verifyToken = await axios({
+    let verifyToken = await axios({
       method: 'GET',
       url: process.env.MS_AUTH_V1_URL + '/auth/verify-token',
       headers: {
