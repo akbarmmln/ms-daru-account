@@ -15,6 +15,8 @@ const {fire} = require("../../../config/firebase");
 const firestore = fire.firestore();
 const formats = require('../../../config/format');
 const errMsg = require('../../../error/resError');
+const ApiErrorMsg = require('../../../error/apiErrorMsg')
+const HttpStatusCode = require("../../../error/httpStatusCode");
 
 exports.chekAccount = async function(req, res){
   try{
@@ -103,11 +105,11 @@ exports.createAccount = async function(req, res){
         for (let k=0; k<check.length; k++) {
           if (i==0) {
             if (check[k].mobile_number == validate[i]) {
-              throw '10009'
+              throw new ApiErrorMsg(HttpStatusCode.BAD_REQUEST, '10009');
             }
           } else if (i==1) {
             if (check[k].email == validate[i]) {
-              throw '10010'
+              throw new ApiErrorMsg(HttpStatusCode.BAD_REQUEST, '10010');
             }
           }
         }
