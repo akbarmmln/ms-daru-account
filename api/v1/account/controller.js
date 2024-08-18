@@ -17,6 +17,7 @@ const formats = require('../../../config/format');
 const errMsg = require('../../../error/resError');
 const ApiErrorMsg = require('../../../error/apiErrorMsg')
 const HttpStatusCode = require("../../../error/httpStatusCode");
+const httpCaller = require('../../../config/httpCaller');
 
 exports.chekAccount = async function(req, res){
   try{
@@ -61,6 +62,7 @@ exports.getAccount = async function (req, res) {
       return res.status(200).json(rsmg('10005', null));
     }
 
+    res.header('access-token', req['access-token'])
     return res.status(200).json(rsmg('000000', dataAccount));
   } catch (e) {
     logger.errorWithContext({ error: e, message: 'error GET /api/v1/account...' });
@@ -153,6 +155,7 @@ exports.getTetangga = async function (req, res) {
       }
     })
 
+    res.header('access-token', req['access-token'])
     return res.status(200).json(rsmg('000000', results));
   } catch (e) {
     logger.errorWithContext({ error: e, message: 'error GET /api/v1/account/tetangga...' });
@@ -188,6 +191,7 @@ exports.createRegisTable = async function (req, res) {
       .doc('register_partition')
       .update(partition);
 
+    res.header('access-token', req['access-token'])
     return res.status(200).json(rsmg('000000', `new table name is ${shortID}`))
   } catch (e) {
     logger.errorWithContext({ error: e, message: 'error GET /api/v1/account/su-admin/create-register-table...' });
