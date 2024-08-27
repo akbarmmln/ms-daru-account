@@ -10,6 +10,7 @@ const errCode = {
   '10008': 'access not allowed to this function',
   '10009': 'nomor hp telah terdaftar',
   '10010': 'email telah terdaftar',
+  '10011': 'missing parameter account id',
 };
 
 module.exports = errCode;

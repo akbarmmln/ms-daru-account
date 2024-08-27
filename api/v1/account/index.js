@@ -15,4 +15,6 @@ router.get('/su-admin/create-register-table', utils.verifyTokenMs, controller.cr
 
 router.post('/send-email', controller.sendEmail);
 
+router.post('/inquiry', utils.verifyTokenMs, controller.inquiryAccount);
+
 module.exports = router;

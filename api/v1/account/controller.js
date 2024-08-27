@@ -212,3 +212,31 @@ exports.sendEmail = async function (req, res) {
     return utils.returnErrorFunction(res, 'error GET /api/v1/account...', e);
   }
 }
+
+exports.inquiryAccount = async function (req, res) {
+  try {
+    const account_id = req.body.account_id;
+    if (formats.isEmpty(account_id)) {
+      throw new ApiErrorMsg(HttpStatusCode.BAD_REQUEST, '10011');
+    }
+
+    const splitId = account_id.split('-');
+    const splitIdLenght = splitId.length
+    const partition = splitId[splitIdLenght - 1]
+
+    const tabelAccount = adrAccountModel(partition)
+
+    const data = await tabelAccount.findOne({
+      raw: true,
+      where: {
+        id: account_id
+      }
+    })
+
+    res.header('access-token', req['access-token'])
+    return res.status(200).json(rsmg('000000', data))
+  } catch (e) {
+    logger.errorWithContext({ error: e, message: 'error GET /api/v1/account/inquiry...' });
+    return utils.returnErrorFunction(res, 'error GET /api/v1/account/inquiry...', e);
+  }
+}
