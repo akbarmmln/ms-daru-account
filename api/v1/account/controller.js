@@ -62,8 +62,17 @@ exports.getAccount = async function (req, res) {
       return res.status(200).json(rsmg('10005', null));
     }
 
+    let dataAuth = await httpCaller({
+      method: 'GET',
+      url: process.env.MS_AUTH_V1_URL + '/auth/position/account',
+    })
+
+    const hasil = {
+      ...dataAccount,
+      ...dataAuth.data.data
+    }
     res.header('access-token', req['access-token'])
-    return res.status(200).json(rsmg('000000', dataAccount));
+    return res.status(200).json(rsmg('000000', hasil));
   } catch (e) {
     logger.errorWithContext({ error: e, message: 'error GET /api/v1/account...' });
     return utils.returnErrorFunction(res, 'error GET /api/v1/account...', e);
