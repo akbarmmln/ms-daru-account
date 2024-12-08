@@ -1,0 +1,169 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msaccount
+  namespace: sit
+  labels:
+    app: msaccount
+    version: v1
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      app: msaccount
+  template:
+    metadata:
+      labels:
+        app: msaccount
+        version: v1
+    spec:
+      containers:
+      - name: msaccount
+        image: taufik90/ms-account:1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8999
+        livenessProbe:
+          httpGet:
+            path: /api/v1/healthcheck/healty
+            port: 8999
+          failureThreshold: 10
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /api/v1/healthcheck/healty
+            port: 8999
+          failureThreshold: 10
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 60"]
+        env:
+         - name: ACC_KEY_ID
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: ACC_KEY_ID
+         - name: FIREBASE_CLIENT_EMAIL
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: FIREBASE_CLIENT_EMAIL
+         - name: FIREBASE_DB_URL
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: FIREBASE_DB_URL
+         - name: FIREBASE_PRIVATE_KEY
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: FIREBASE_PRIVATE_KEY
+         - name: FIREBASE_PROJECT_ID
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: FIREBASE_PROJECT_ID
+         - name: HOST_MAIL
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: HOST_MAIL
+         - name: LOGGER_LEVEL
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: LOGGER_LEVEL
+         - name: MS_AUTH_V1_URL
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: MS_AUTH_V1_URL
+         - name: MYSQL_DATABASE
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: MYSQL_DATABASE
+         - name: MYSQL_HOSTNAME
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: MYSQL_HOSTNAME
+         - name: MYSQL_PASSWORD
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: MYSQL_PASSWORD
+         - name: MYSQL_PORT
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: MYSQL_PORT
+         - name: MYSQL_USERNAME
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: MYSQL_USERNAME
+         - name: OSS_ENDPOINT
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: OSS_ENDPOINT
+         - name: OSS_REGION
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: OSS_REGION
+         - name: PASS_MAIL
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: PASS_MAIL
+         - name: PORT
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: PORT
+         - name: PORT_MAIL
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: PORT_MAIL
+         - name: SCR_ACC_KEY
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: SCR_ACC_KEY
+         - name: SECRET
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: SECRET
+         - name: SERVICE_NAME
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: SERVICE_NAME
+         - name: SSL_SEQUELIZE
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: SSL_SEQUELIZE
+         - name: USER_MAIL
+           valueFrom:
+            secretKeyRef:
+              name: msaccount-secret
+              key: USER_MAIL
