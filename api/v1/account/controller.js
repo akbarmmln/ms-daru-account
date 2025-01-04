@@ -48,6 +48,12 @@ exports.chekAccount = async function(req, res){
 
 exports.getAccount = async function (req, res) {
   try {
+    console.log('x-forwarded-for', req.headers['x-forwarded-for'])
+    console.log('connection.remoteAddress', req.connection.remoteAddress)
+    console.log('socket.remoteAddress', req.socket.remoteAddress)
+    console.log('connection', req.connection)
+    console.log('socket', req.socket)
+
     let id = req.id;
 
     const tabelAccount = adrAccountModel(req.parts)
