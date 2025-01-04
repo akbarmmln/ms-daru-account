@@ -18,6 +18,7 @@ const errMsg = require('../../../error/resError');
 const ApiErrorMsg = require('../../../error/apiErrorMsg')
 const HttpStatusCode = require("../../../error/httpStatusCode");
 const httpCaller = require('../../../config/httpCaller');
+const { lookup } = require('geoip-lite');
 
 exports.chekAccount = async function(req, res){
   try{
@@ -48,14 +49,11 @@ exports.chekAccount = async function(req, res){
 
 exports.getAccount = async function (req, res) {
   try {
-    console.log('x-forwarded-for', req.headers['x-forwarded-for'])
-    console.log('connection.remoteAddress', req.connection.remoteAddress)
-    console.log('socket.remoteAddress', req.socket.remoteAddress)
-    console.log('connection', req.connection)
-    console.log('socket', req.socket)
-
-    let id = req.id;
-
+    const id = req.id;
+    const ip = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.connection.remoteAddress || req.socket.remoteAddress;
+    const geoIp = lookup(ip)
+    console.log('geoIpgeoIp', geoIp)
+    
     const tabelAccount = adrAccountModel(req.parts)
 
     const dataAccount = await tabelAccount.findOne({
@@ -75,7 +73,8 @@ exports.getAccount = async function (req, res) {
 
     const hasil = {
       ...dataAccount,
-      ...dataAuth.data.data
+      ...dataAuth.data.data,
+      geoIp: geoIp
     }
     res.header('access-token', req['access-token'])
     return res.status(200).json(rsmg('000000', hasil));
