@@ -55,6 +55,8 @@ exports.getAccount = async function (req, res) {
     
     const geoIp1 = lookup(ip)
     const geoIp2 = lookup(client_ip)
+    console.log('geoIp1', geoIp1)
+    console.log('geoIp2', geoIp2)
 
     const tabelAccount = adrAccountModel(req.parts)
 
