@@ -51,9 +51,10 @@ exports.getAccount = async function (req, res) {
   try {
     const id = req.id;
     const ip = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.connection.remoteAddress || req.socket.remoteAddress;
+    const client_ip = req.headers['client-ip'];
+    console.log('asdsaasdasdasdsd', client_ip)
     const geoIp = lookup(ip)
-    console.log('geoIpgeoIp', geoIp)
-    
+
     const tabelAccount = adrAccountModel(req.parts)
 
     const dataAccount = await tabelAccount.findOne({
