@@ -51,14 +51,7 @@ exports.getAccount = async function (req, res) {
   try {
     const id = req.id;
     const ip = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.connection.remoteAddress || req.socket.remoteAddress;
-    const client_ip = req.headers['client-ip'];
-    console.log('ip geoIp1', ip)
-    console.log('ip geoIp1', client_ip)
-
-    const geoIp1 = lookup(ip)
-    const geoIp2 = lookup(client_ip)
-    console.log('geoIp1', geoIp1)
-    console.log('geoIp2', geoIp2)
+    const geoIp = lookup(ip)
 
     const tabelAccount = adrAccountModel(req.parts)
 
@@ -80,10 +73,7 @@ exports.getAccount = async function (req, res) {
     const hasil = {
       ...dataAccount,
       ...dataAuth.data.data,
-      geoIp: {
-        geoIp1,
-        geoIp2
-      }
+      geoIp: geoIp
     }
     res.header('access-token', req['access-token'])
     return res.status(200).json(rsmg('000000', hasil));

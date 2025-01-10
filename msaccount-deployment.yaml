@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: msaccount
-        image: taufik90/ms-account:1
+        image: taufik90/ms-account:$BUILD_NUMBER
         imagePullPolicy: Always
         ports:
         - containerPort: 8999
