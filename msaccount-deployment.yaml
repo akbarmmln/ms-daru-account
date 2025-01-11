@@ -27,6 +27,11 @@ spec:
       - name: msaccount
         image: taufik90/ms-account:$BUILD_NUMBER
         imagePullPolicy: Always
+        resources:
+          requests:
+            ephemeral-storage: "1Gi"
+          limits:
+            ephemeral-storage: "2Gi"
         ports:
         - containerPort: 8999
         livenessProbe:
